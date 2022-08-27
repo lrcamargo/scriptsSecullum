@@ -1,0 +1,27 @@
+USE [SecullumAcessoNet]
+GO
+/****** Object:  Trigger [dbo].[TRG_Horario_Add]    Script Date: 27/08/2022 08:58:25 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Letícia Rosa Camargo
+-- Create date: 26/08/2019
+-- =============================================
+ALTER TRIGGER [dbo].[TRG_Horario_Add] 
+   ON  [dbo].[niveis] 
+   AFTER INSERT
+AS 
+BEGIN
+	DECLARE
+	@nivelDesc varchar(50),
+	@nivelId int,
+	@data datetime
+
+	SET NOCOUNT ON;
+
+    SELECT @nivelDesc = descricao, @nivelId = id, @data = criacao_data FROM INSERTED
+	INSERT INTO dbo.horarios (nome, criacao_usu_id, criacao_data) values (@nivelDesc, 2, @data)
+
+END
